@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,7 +21,7 @@ class RootActivity : ComponentActivity() {
     @Inject
     lateinit var rootComponentFactory: DefaultRootComponent.Factory
 
-    private var rootComponent: RootComponent? = null
+    private lateinit var rootComponent: RootComponent
 
     private val defaultComponentContext by lazy {
         defaultComponentContext()
@@ -42,10 +43,13 @@ class RootActivity : ComponentActivity() {
         setContent {
             DecomposeDemoProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        RootContent(component = rootComponent)
+                    }
                 }
             }
         }
