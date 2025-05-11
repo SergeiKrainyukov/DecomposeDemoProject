@@ -12,9 +12,9 @@ fun RootContent(component: RootComponent) {
     val childStack by component.childStack.subscribeAsState()
 
     Children(childStack) {
-        when(it.instance){
+        when(val instance = it.instance){
             is RootComponent.Child.FeatureOne -> {
-                FeatureOneScreen()
+                FeatureOneScreen(instance.component)
             }
             is RootComponent.Child.FeatureTwo -> {
                 FeatureTwoScreen()

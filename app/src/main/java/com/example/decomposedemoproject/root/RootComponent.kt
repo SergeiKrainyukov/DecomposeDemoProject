@@ -5,6 +5,8 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
+import com.example.decomposedemoproject.feature_two.presentation.component.DefaultFeatureOneScreenComponent
+import com.example.decomposedemoproject.feature_two.presentation.component.FeatureOneScreenComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,13 +16,14 @@ interface RootComponent {
     val childStack: Value<ChildStack<*, Child>>
 
     sealed interface Child {
-        class FeatureOne() : Child
+        class FeatureOne(val component: FeatureOneScreenComponent) : Child
         class FeatureTwo() : Child
     }
 }
 
 class DefaultRootComponent @AssistedInject constructor(
-    @Assisted("componentContext") private val componentContext: ComponentContext
+    @Assisted("componentContext") private val componentContext: ComponentContext,
+    private val featureOneScreenComponentFactory: DefaultFeatureOneScreenComponent.Factory,
 ): RootComponent, ComponentContext by componentContext {
     @AssistedFactory
     interface Factory {
@@ -44,7 +47,7 @@ class DefaultRootComponent @AssistedInject constructor(
         componentContext: ComponentContext,
     ): RootComponent.Child = when (config) {
         Config.FeatureOne -> {
-            RootComponent.Child.FeatureOne()
+            RootComponent.Child.FeatureOne(featureOneScreenComponentFactory.create(componentContext))
         }
         Config.FeatureTwo -> {
             RootComponent.Child.FeatureTwo()
