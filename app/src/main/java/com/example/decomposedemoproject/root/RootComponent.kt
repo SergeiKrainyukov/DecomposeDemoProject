@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.example.decomposedemoproject.feature_one.presentation.component.DefaultFeatureOneScreenComponent
 import com.example.decomposedemoproject.feature_one.presentation.component.FeatureOneScreenComponent
@@ -50,11 +51,22 @@ class DefaultRootComponent @AssistedInject constructor(
         componentContext: ComponentContext,
     ): RootComponent.Child = when (config) {
         Config.FeatureOne -> {
-            RootComponent.Child.FeatureOne(featureOneScreenComponentFactory.create(componentContext))
+            RootComponent.Child.FeatureOne(
+                featureOneScreenComponentFactory.create(
+                    componentContext = componentContext,
+                    navigateToFeatureTwo = {
+                        navigation.push(Config.FeatureTwo(it))
+                    })
+            )
         }
 
-        Config.FeatureTwo -> {
-            RootComponent.Child.FeatureTwo(featureTwoScreenComponentFactory.create(componentContext))
+        is Config.FeatureTwo -> {
+            RootComponent.Child.FeatureTwo(
+                featureTwoScreenComponentFactory.create(
+                    componentContext = componentContext,
+                    id = config.id
+                )
+            )
         }
     }
 
@@ -65,7 +77,9 @@ class DefaultRootComponent @AssistedInject constructor(
         data object FeatureOne : Config()
 
         @Serializable
-        data object FeatureTwo : Config()
+        data class FeatureTwo(
+            val id: String
+        ) : Config()
 
     }
 }

@@ -1,7 +1,9 @@
 package com.example.decomposedemoproject.feature_one.presentation.content
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,21 +20,32 @@ fun FeatureOneScreen(featureOneScreenComponent: FeatureOneScreenComponent) {
 
     val state by featureOneScreenComponent.model.collectAsState()
 
-    FeatureOneScreenContent(state)
+    FeatureOneScreenContent(
+        state = state,
+        onClickNavigateFeatureTwo = featureOneScreenComponent::onClickNavigateFeatureTwo
+    )
 
 }
 
 @Composable
 private fun FeatureOneScreenContent(
-    state: FeatureOneScreenComponentStore.State
+    state: FeatureOneScreenComponentStore.State,
+    onClickNavigateFeatureTwo: () -> Unit
 ) {
     Box(
         Modifier.fillMaxSize()
     ) {
-        if (state.dataLoading) {
+        if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else
-            Text(state.featureOneData, modifier = Modifier.align(Alignment.Center))
+            Column(
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                Text(state.featureOneData)
+                Button(onClick = onClickNavigateFeatureTwo) {
+                    Text("Go to Feature Two")
+                }
+            }
     }
 }
 
@@ -41,8 +54,9 @@ private fun FeatureOneScreenContent(
 private fun FeatureOneScreenContentPreview() {
     FeatureOneScreenContent(
         state = FeatureOneScreenComponentStore.State(
-            featureOneData = "featureOneData",
-            dataLoading = false
-        )
+            featureOneData = "Feature One",
+            isLoading = false
+        ),
+        onClickNavigateFeatureTwo = {}
     )
 }

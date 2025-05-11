@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface FeatureOneScreenComponent {
     val model: StateFlow<FeatureOneScreenComponentStore.State>
+    fun onClickNavigateFeatureTwo()
 }
 

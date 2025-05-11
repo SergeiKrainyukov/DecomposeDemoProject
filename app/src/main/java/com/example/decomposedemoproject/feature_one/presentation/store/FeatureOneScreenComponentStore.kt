@@ -9,13 +9,16 @@ import com.example.decomposedemoproject.feature_one.presentation.store.FeatureOn
 interface FeatureOneScreenComponentStore : Store<Intent, State, Label> {
 
     sealed interface Intent {
+        data object OnClickNavigateFeatureTwo : Intent
     }
 
     data class State(
         val featureOneData: String,
-        val dataLoading: Boolean
+        val id: String = "",
+        val isLoading: Boolean = false
     )
 
     sealed interface Label {
+        class NavigateToFeatureTwo(val id: String) : Label
     }
 }

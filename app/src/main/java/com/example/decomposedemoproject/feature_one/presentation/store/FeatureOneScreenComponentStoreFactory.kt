@@ -20,7 +20,7 @@ class FeatureOneScreenComponentStoreFactory @Inject constructor(
                 name = "FeatureOneScreenComponentStore",
                 initialState = FeatureOneScreenComponentStore.State(
                     featureOneData = "",
-                    dataLoading = false
+                    isLoading = false
                 ),
                 bootstrapper = BootstrapperImpl(),
                 executorFactory = ::ExecutorImpl,
@@ -60,6 +60,9 @@ class FeatureOneScreenComponentStoreFactory @Inject constructor(
             intent: FeatureOneScreenComponentStore.Intent,
             getState: () -> FeatureOneScreenComponentStore.State
         ) {
+            when (intent) {
+                FeatureOneScreenComponentStore.Intent.OnClickNavigateFeatureTwo -> publish(FeatureOneScreenComponentStore.Label.NavigateToFeatureTwo(getState().id))
+            }
         }
 
         override fun executeAction(
@@ -85,9 +88,9 @@ class FeatureOneScreenComponentStoreFactory @Inject constructor(
     private object ReducerImpl : Reducer<FeatureOneScreenComponentStore.State, Msg> {
         override fun FeatureOneScreenComponentStore.State.reduce(msg: Msg): FeatureOneScreenComponentStore.State =
             when (msg) {
-                is Msg.GetDataFailure -> copy(featureOneData = msg.errorMessage, dataLoading = false)
-                is Msg.GetDataSuccess -> copy(featureOneData = msg.data, dataLoading = false)
-                is Msg.GetDataLoading -> copy(dataLoading = msg.isLoading)
+                is Msg.GetDataFailure -> copy(featureOneData = msg.errorMessage, isLoading = false)
+                is Msg.GetDataSuccess -> copy(featureOneData = msg.data, isLoading = false)
+                is Msg.GetDataLoading -> copy(isLoading = msg.isLoading)
             }
     }
 }
