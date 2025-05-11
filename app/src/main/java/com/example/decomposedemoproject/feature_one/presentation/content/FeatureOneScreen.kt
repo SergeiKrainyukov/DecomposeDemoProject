@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.decomposedemoproject.feature_two.presentation.component.FeatureOneScreenComponent
+import com.example.decomposedemoproject.feature_one.presentation.component.FeatureOneScreenComponent
 
 @Composable
 fun FeatureOneScreen(featureOneScreenComponent: FeatureOneScreenComponent) {

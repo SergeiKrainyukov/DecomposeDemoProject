@@ -17,7 +17,7 @@ fun RootContent(component: RootComponent) {
                 FeatureOneScreen(instance.component)
             }
             is RootComponent.Child.FeatureTwo -> {
-                FeatureTwoScreen()
+                FeatureTwoScreen(instance.component)
             }
         }
     }

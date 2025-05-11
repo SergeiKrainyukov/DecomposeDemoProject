@@ -5,8 +5,10 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.example.decomposedemoproject.feature_two.presentation.component.DefaultFeatureOneScreenComponent
-import com.example.decomposedemoproject.feature_two.presentation.component.FeatureOneScreenComponent
+import com.example.decomposedemoproject.feature_one.presentation.component.DefaultFeatureOneScreenComponent
+import com.example.decomposedemoproject.feature_one.presentation.component.FeatureOneScreenComponent
+import com.example.decomposedemoproject.feature_two.presentation.component.DefaultFeatureTwoScreenComponent
+import com.example.decomposedemoproject.feature_two.presentation.component.FeatureTwoScreenComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,14 +19,15 @@ interface RootComponent {
 
     sealed interface Child {
         class FeatureOne(val component: FeatureOneScreenComponent) : Child
-        class FeatureTwo() : Child
+        class FeatureTwo(val component: FeatureTwoScreenComponent) : Child
     }
 }
 
 class DefaultRootComponent @AssistedInject constructor(
     @Assisted("componentContext") private val componentContext: ComponentContext,
     private val featureOneScreenComponentFactory: DefaultFeatureOneScreenComponent.Factory,
-): RootComponent, ComponentContext by componentContext {
+    private val featureTwoScreenComponentFactory: DefaultFeatureTwoScreenComponent.Factory,
+) : RootComponent, ComponentContext by componentContext {
     @AssistedFactory
     interface Factory {
         fun create(
@@ -49,8 +52,9 @@ class DefaultRootComponent @AssistedInject constructor(
         Config.FeatureOne -> {
             RootComponent.Child.FeatureOne(featureOneScreenComponentFactory.create(componentContext))
         }
+
         Config.FeatureTwo -> {
-            RootComponent.Child.FeatureTwo()
+            RootComponent.Child.FeatureTwo(featureTwoScreenComponentFactory.create(componentContext))
         }
     }
 

@@ -5,17 +5,17 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-interface FeatureOneScreenComponent {
+interface FeatureTwoScreenComponent {
 
 }
 
-class DefaultFeatureOneScreenComponent @AssistedInject constructor(
+class DefaultFeatureTwoScreenComponent @AssistedInject constructor(
     @Assisted("componentContext") componentContext: ComponentContext
-): FeatureOneScreenComponent, ComponentContext by componentContext {
+): FeatureTwoScreenComponent, ComponentContext by componentContext {
     @AssistedFactory
     interface Factory {
         fun create(
             @Assisted("componentContext") componentContext: ComponentContext,
-        ): DefaultFeatureOneScreenComponent
+        ): DefaultFeatureTwoScreenComponent
     }
 }
